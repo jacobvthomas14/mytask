@@ -11,8 +11,15 @@ helper_method :sort_field, :sort_field_order
   def index
     #@movies = Movie.all
     #Collecting ratings value if any
-    session.delete(:home_path)
+    
     @rparams=params[:ratings] ? params[:ratings] : Movie.ratings
+    session[:ratings]=@rparams
+    if !params[:sort] && !params[:sorder] && !params[:ratings]
+      flash.keep
+      redirect_to :action=>:index, :sort=>session[:sort], :sorder=>session[:sorder], :ratings=>session[:ratings]   
+    end
+    session.delete(:home_path)
+
     @filteredmovies=Movie.where(:rating=>@rparams)
     @movies =@filteredmovies.order(sort_field + " " + sort_field_order)
     @all_ratings=Movie.ratings
@@ -51,13 +58,12 @@ private
   
   def sort_field
     Movie.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
+    session[:sort]=(params[:sort]) ? params[:sort] : "created_at"
   end
   
   def sort_field_order
     %w[asc desc].include?(params[:sorder]) ? params[:sorder] : "desc"
+    session[:sorder]=(params[:sorder]) ? params[:sorder] : "desc"
   end
   
-  def ratings_filter
-    Movie.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
-  end
 end

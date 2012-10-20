@@ -9,7 +9,11 @@ helper_method :sort_field, :sort_field_order
 
   def index
     #@movies = Movie.all
-    @movies =Movie.order(sort_field + " " + sort_field_order)
+    #Collecting ratings value if any
+    @rparams=params[:ratings] ? params[:ratings] : Movie.ratings
+    @filteredmovies=Movie.where(:rating=>@rparams)
+    @movies =@filteredmovies.order(sort_field + " " + sort_field_order)
+    @all_ratings=Movie.ratings
   end
 
   def new
@@ -48,5 +52,9 @@ private
   
   def sort_field_order
     %w[asc desc].include?(params[:sorder]) ? params[:sorder] : "desc"
+  end
+  
+  def ratings_filter
+    Movie.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
   end
 end

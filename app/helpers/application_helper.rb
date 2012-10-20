@@ -6,7 +6,7 @@ def sortable_field(field, title_text, field_id=nil)
   css_class = (field == sort_field) ? "hilite" : nil
   sorder = (field == sort_field) && sort_field_order == "asc" ? "desc" : "asc"
   content_tag(:th, :class => css_class) do
-  link_to title_text, {:sort => field, :sorder => sorder}, {:id => field_id}
+  link_to title_text, {:sort => field, :sorder => sorder, :ratings=>params[:ratings]}, {:id => field_id}
   end
 end
 

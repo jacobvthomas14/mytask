@@ -1,0 +1,37 @@
+# ---------------------------
+# Default settings  
+# ---------------------------
+
+default: &DEFAULT
+  adapter: mysql2
+  encoding: utf8  
+
+local: &LOCAL
+  <<: *DEFAULT
+  username: root
+  password: jeevan
+  host: localhost
+
+server: &SERVER
+  <<: *DEFAULT 
+  username: root
+  password: jeevan
+  host: localhost
+
+
+# ---------------------------
+# Local  
+# ---------------------------
+
+development:
+  <<: *LOCAL
+  database: RP_development
+
+test: &TEST
+  <<: *LOCAL
+  database: RP_test
+  
+production:
+  <<: *LOCAL
+  database: RP_prod
+  

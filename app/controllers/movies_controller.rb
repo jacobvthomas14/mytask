@@ -4,12 +4,14 @@ helper_method :sort_field, :sort_field_order
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
+    session[:home_path]=request.env["HTTP_REFERER"] unless session[:home_path]
     # will render app/views/movies/show.<extension> by default
   end
 
   def index
     #@movies = Movie.all
     #Collecting ratings value if any
+    session.delete(:home_path)
     @rparams=params[:ratings] ? params[:ratings] : Movie.ratings
     @filteredmovies=Movie.where(:rating=>@rparams)
     @movies =@filteredmovies.order(sort_field + " " + sort_field_order)

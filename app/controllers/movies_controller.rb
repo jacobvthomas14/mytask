@@ -12,7 +12,7 @@ helper_method :sort_field, :sort_field_order
     #@movies = Movie.all
     #Collecting ratings value if any
     
-    @rparams=params[:ratings] ? params[:ratings] : Movie.ratings
+    @rparams=params[:ratings] ? (params[:ratings] ? params[:ratings] : session[:ratings]) : Movie.ratings
     session[:ratings]=@rparams
     if !params[:sort] && !params[:sorder] && !params[:ratings]
       flash.keep

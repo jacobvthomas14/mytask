@@ -19,13 +19,14 @@ helper_method :sort_field, :sort_field_order
   end
 
   def new
+    session[:home_path]=request.env["HTTP_REFERER"] unless session[:home_path]
     # default: render 'new' template
   end
 
   def create
     @movie = Movie.create!(params[:movie])
     flash[:notice] = "#{@movie.title} was successfully created."
-    redirect_to movies_path
+    redirect_to session[:home_path]
   end
 
   def edit
@@ -43,7 +44,7 @@ helper_method :sort_field, :sort_field_order
     @movie = Movie.find(params[:id])
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
-    redirect_to movies_path
+    redirect_to session[:home_path]
   end
   
 private

@@ -43,10 +43,10 @@ helper_method :sort_field, :sort_field_order
 private
   
   def sort_field
-    Movie.column_names.include?(params[:sort]) ? params[:sort] : "title"
+    Movie.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
   end
   
   def sort_field_order
-    %w[asc desc].include?(params[:sorder]) ? params[:sorder] : "asc"
+    %w[asc desc].include?(params[:sorder]) ? params[:sorder] : "desc"
   end
 end
